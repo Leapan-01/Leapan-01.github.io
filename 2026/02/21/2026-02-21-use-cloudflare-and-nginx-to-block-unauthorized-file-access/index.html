@@ -16,19 +16,19 @@
   <meta name="description" content="前言某天在给网站日常折腾的时候，看见了一些不得了的东西。  为什么这么多陌生IP要扫描它们不该扫的东西呢？(⊙ˍ⊙) 把日志喂给DeepSeek后，结果告诉我：  (ˉ▽ˉ；)…这下只能动用点手段了。 操作认真梳理了日志后，发现攻击脚本主要在做两件事：  扫描 WordPress 核心目录：比如 &#x2F;wp-includes&#x2F;、&#x2F;wp-content&#x2F;下的各种子">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Cloudflare+Nginx自定义规则来阻止核心文件的访问">
-<meta property="og:url" content="https://leapan_01.github.io/2026/02/21/2026-02-21-use-cloudflare-and-nginx-to-block-unauthorized-file-access/index.html">
+<meta property="og:url" content="https://leapan-01.github.io/2026/02/21/2026-02-21-use-cloudflare-and-nginx-to-block-unauthorized-file-access/index.html">
 <meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
 <meta property="og:description" content="前言某天在给网站日常折腾的时候，看见了一些不得了的东西。  为什么这么多陌生IP要扫描它们不该扫的东西呢？(⊙ˍ⊙) 把日志喂给DeepSeek后，结果告诉我：  (ˉ▽ˉ；)…这下只能动用点手段了。 操作认真梳理了日志后，发现攻击脚本主要在做两件事：  扫描 WordPress 核心目录：比如 &#x2F;wp-includes&#x2F;、&#x2F;wp-content&#x2F;下的各种子">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://leapan_01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
-<meta property="og:image" content="https://leapan_01.github.io/img/1771653310-0a5150405d1c50fca3f70c168860c895.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1771656003-e12c63b3c06b22352783769b7b4011c8-1024x496.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1771656979-8dc77e0586444f41923db91ee5efefb1-1024x496.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
+<meta property="og:image" content="https://leapan-01.github.io/img/1771653310-0a5150405d1c50fca3f70c168860c895.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1771656003-e12c63b3c06b22352783769b7b4011c8-1024x496.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1771656979-8dc77e0586444f41923db91ee5efefb1-1024x496.png">
 <meta property="article:published_time" content="2026-02-20T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-07-23T14:28:30.832Z">
 <meta property="article:author" content="Leapan">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://leapan_01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
+<meta name="twitter:image" content="https://leapan-01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
 
   <script>window.ThemeCupertino = {}</script>
 

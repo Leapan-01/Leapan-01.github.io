@@ -16,18 +16,18 @@
   <meta name="description" content="嘛，说到写博客时的CSS样式，果然还是会遇到一些规则“打架”的麻烦事吧。明明写了正确的样式，可页面元素还是我行我素，最后只好掏出!important，让代码的可读性变得一团糟了呢&#x2F;(ㄒoㄒ)&#x2F;~~实则不然，这一切的背后，可是有**特异性（Specificity）**的这套规则在悄悄运作哦。毕竟只有明白了这套规则，才能写出优雅可控的CSS呢。（笑 当然，我们先需要好好认识一下CS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS常见选择器及权重特异性详解">
-<meta property="og:url" content="https://leapan_01.github.io/2026/01/22/2026-01-22-css-selectors-and-specificity/index.html">
+<meta property="og:url" content="https://leapan-01.github.io/2026/01/22/2026-01-22-css-selectors-and-specificity/index.html">
 <meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
 <meta property="og:description" content="嘛，说到写博客时的CSS样式，果然还是会遇到一些规则“打架”的麻烦事吧。明明写了正确的样式，可页面元素还是我行我素，最后只好掏出!important，让代码的可读性变得一团糟了呢&#x2F;(ㄒoㄒ)&#x2F;~~实则不然，这一切的背后，可是有**特异性（Specificity）**的这套规则在悄悄运作哦。毕竟只有明白了这套规则，才能写出优雅可控的CSS呢。（笑 当然，我们先需要好好认识一下CS">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://leapan_01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1769059742-f1aaefc156780ebb884ee4c225438777.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1771933624-image-827x1024.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1769059742-f1aaefc156780ebb884ee4c225438777.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1771933624-image-827x1024.png">
 <meta property="article:published_time" content="2026-01-21T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
 <meta property="article:author" content="Leapan">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://leapan_01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
+<meta name="twitter:image" content="https://leapan-01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
 
   <script>window.ThemeCupertino = {}</script>
 

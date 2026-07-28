@@ -16,25 +16,25 @@
   <meta name="description" content="在我们遇到DDoS攻击，或是想要为网站的安全性“添砖加瓦”的时候，第一时间就会想到为网站接入Cloudflare。 然而，由于中国大陆地区的运营商有时会对Cloudflare的CDN节点进行谜之屏蔽的操作，而且免费版的CDN服务经常会分配到美国的节点，此时你再次打开测速网站，其结果很有可能会是下面这样↓  难道中国大陆地区真的不适合接入Cloudflare吗？ 实则不然，其问题极大可能是缓存没有设">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cloudflare优化指南（缓存篇）">
-<meta property="og:url" content="https://leapan_01.github.io/2025/03/07/2025-03-07-cloudflare-optimization-guide-1/index.html">
+<meta property="og:url" content="https://leapan-01.github.io/2025/03/07/2025-03-07-cloudflare-optimization-guide-1/index.html">
 <meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
 <meta property="og:description" content="在我们遇到DDoS攻击，或是想要为网站的安全性“添砖加瓦”的时候，第一时间就会想到为网站接入Cloudflare。 然而，由于中国大陆地区的运营商有时会对Cloudflare的CDN节点进行谜之屏蔽的操作，而且免费版的CDN服务经常会分配到美国的节点，此时你再次打开测速网站，其结果很有可能会是下面这样↓  难道中国大陆地区真的不适合接入Cloudflare吗？ 实则不然，其问题极大可能是缓存没有设">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://leapan_01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741009940-e6d7894a4e98498c89a50cf578b24ab5.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741092283-2f484180063cd98b04de697ea4bec7b.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741345401-1741345304457_24B17436-CC1F-42da-89ED-81A28899492D.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741346843-1741346473331_74C5295A-D5CA-4e73-B28A-09F8210527AE-1024x795.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741348015-1741346497258_B656FBA5-C81F-4cde-9586-4164A2368220-1024x787.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741348032-1741346672279_51FA12B6-74D7-4a25-B09F-73AC0C3329A0-1024x647.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741348127-2d78f7d5dd704e898b71b7577815a5cd-1024x486.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741349290-0a0dc5e652fadcb8a0c59b638d6954c6-1024x500.png">
-<meta property="og:image" content="https://leapan_01.github.io/img/1741350049-1741350039564_DD8C15A0-BACA-4616-A3FE-D087A599134C.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741009940-e6d7894a4e98498c89a50cf578b24ab5.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741092283-2f484180063cd98b04de697ea4bec7b.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741345401-1741345304457_24B17436-CC1F-42da-89ED-81A28899492D.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741346843-1741346473331_74C5295A-D5CA-4e73-B28A-09F8210527AE-1024x795.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741348015-1741346497258_B656FBA5-C81F-4cde-9586-4164A2368220-1024x787.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741348032-1741346672279_51FA12B6-74D7-4a25-B09F-73AC0C3329A0-1024x647.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741348127-2d78f7d5dd704e898b71b7577815a5cd-1024x486.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741349290-0a0dc5e652fadcb8a0c59b638d6954c6-1024x500.png">
+<meta property="og:image" content="https://leapan-01.github.io/img/1741350049-1741350039564_DD8C15A0-BACA-4616-A3FE-D087A599134C.png">
 <meta property="article:published_time" content="2025-03-06T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
 <meta property="article:author" content="Leapan">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://leapan_01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
+<meta name="twitter:image" content="https://leapan-01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
 
   <script>window.ThemeCupertino = {}</script>
 
