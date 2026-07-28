@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>使用Cloudflare+Nginx自定义规则来阻止核心文件的访问 - Leapan&#39;s Blog-数字田园的悠然漫步(备用站)</title>
+  
+    <link rel="shortcut icon" href="https://files.seeusercontent.com/2026/04/18/W5xo/1737602734-icon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="前言某天在给网站日常折腾的时候，看见了一些不得了的东西。  为什么这么多陌生IP要扫描它们不该扫的东西呢？(⊙ˍ⊙) 把日志喂给DeepSeek后，结果告诉我：  (ˉ▽ˉ；)…这下只能动用点手段了。 操作认真梳理了日志后，发现攻击脚本主要在做两件事：  扫描 WordPress 核心目录：比如 &#x2F;wp-includes&#x2F;、&#x2F;wp-content&#x2F;下的各种子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Cloudflare+Nginx自定义规则来阻止核心文件的访问">
+<meta property="og:url" content="https://leapan_01.github.io/2026/02/21/2026-02-21-use-cloudflare-and-nginx-to-block-unauthorized-file-access/index.html">
+<meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
+<meta property="og:description" content="前言某天在给网站日常折腾的时候，看见了一些不得了的东西。  为什么这么多陌生IP要扫描它们不该扫的东西呢？(⊙ˍ⊙) 把日志喂给DeepSeek后，结果告诉我：  (ˉ▽ˉ；)…这下只能动用点手段了。 操作认真梳理了日志后，发现攻击脚本主要在做两件事：  扫描 WordPress 核心目录：比如 &#x2F;wp-includes&#x2F;、&#x2F;wp-content&#x2F;下的各种子">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leapan_01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
+<meta property="og:image" content="https://leapan_01.github.io/img/1771653310-0a5150405d1c50fca3f70c168860c895.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1771656003-e12c63b3c06b22352783769b7b4011c8-1024x496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1771656979-8dc77e0586444f41923db91ee5efefb1-1024x496.png">
+<meta property="article:published_time" content="2026-02-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T14:28:30.832Z">
+<meta property="article:author" content="Leapan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leapan_01.github.io/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Leapan&#39;s Blog(备用站)</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" style="--index: 1">主站</a>
+      
+      <a class="nav-item" href="/reciprocal-linking" style="--index: 2">友情链接</a>
+      
+      <a class="nav-item" href="/archives" style="--index: 3">Archives</a>
+      
+      <a class="nav-item" href="/faq" style="--index: 4">FAQ</a>
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" style="--index: 5">RSS</a>
+      
+      <a class="nav-item" href="/about" style="--index: 6">关于</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 7"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/technology/">technology</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2026-02-21T00:00:00+08:00">
+      February 21, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">使用Cloudflare+Nginx自定义规则来阻止核心文件的访问</h1>
+  </div>
+
+  <div class="content">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>某天在给网站日常折腾的时候，看见了一些不得了的东西。</p>
+<p><img src="/img/1771653038-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-02-21_135023_943-1024x401.jpg"></p>
+<p>为什么这么多陌生IP要扫描它们不该扫的东西呢？(⊙ˍ⊙)</p>
+<p>把日志喂给DeepSeek后，结果告诉我：</p>
+<p><img src="/img/1771653310-0a5150405d1c50fca3f70c168860c895.png"></p>
+<p>(ˉ▽ˉ；)…这下只能动用点手段了。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>认真梳理了日志后，发现攻击脚本主要在做两件事：</p>
+<ol>
+<li><p><strong>扫描 WordPress 核心目录</strong>：比如 &#x2F;wp-includes&#x2F;、&#x2F;wp-content&#x2F;下的各种子目录，想看看有没有敏感文件泄露。</p>
+</li>
+<li><p><strong>探测后门路径</strong>：像 &#x2F;update&#x2F;、&#x2F;upgrade&#x2F;、&#x2F;backup&#x2F;、&#x2F;tmp&#x2F;  等。</p>
+</li>
+</ol>
+<p>所以说，我们的规则主要针对这些目录下php文件就可以了。o(*￣▽￣*)o</p>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>打开你的Nginx具体网站配置文件，一般来说位于&#x2F;etc&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;vhost&#x2F;<a target="_blank" rel="noopener" href="http://www.example.com.conf中./">www.example.com.conf中。</a></p>
+<p>而后将以下代码放在所有其他location块之前↓</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#禁止wp-includes下php文件</span><br><span class="line">location ~* /wp-includes/.*\.php$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">    access_log off;</span><br><span class="line">    log_not_found off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#禁止wp-content/uploads下php文件</span><br><span class="line">location ~* /wp-content/uploads/.*\.php$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">    access_log off;</span><br><span class="line">    log_not_found off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#禁止theme和plugins目录下php文件</span><br><span class="line">location ~* /wp-content/themes/.*\.php$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">    access_log off;</span><br><span class="line">    log_not_found off;</span><br><span class="line">&#125;</span><br><span class="line">location ~* /wp-content/plugins/.*\.php$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">    access_log off;</span><br><span class="line">    log_not_found off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#禁止常见后门下的php文件</span><br><span class="line">location ~* /(update|upgrade|backup|tmp)/.*\.php$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">    access_log off;</span><br><span class="line">    log_not_found off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完事后，我们重载一下Nginx，然后使用命令来测试一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -I https://www.example.com/wp-includes/functions.php</span><br><span class="line">#结果应返回403</span><br></pre></td></tr></table></figure>
+
+<p>完成ヾ(≧ ▽ ≦)ゝ</p>
+<p>另外地，极少数情况下，某些插件或主题可能会要求直接访问某个 PHP 文件（例如提供前端动态资源），如果确实有这样现象，可以这样处理ヾ(^▽^*)))↓</p>
+<p>在 Nginx 配置中，在封禁规则<strong>之前</strong>添加一条允许特定路径的规则。比如说，如果有一个合法文件需要访问 wp-content&#x2F;themes&#x2F;theme0721&#x2F;special.php，可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 允许特定的PHP文件（在封禁规则之前）</span><br><span class="line">location = /wp-content/themes/theme0721/special.php &#123;</span><br><span class="line">    allow all;</span><br><span class="line">    # 这里可以正常处理PHP</span><br><span class="line">    include snippets/fastcgi-php.conf;</span><br><span class="line">    fastcgi_pass unix:/tmp/php-cgi-80.sock;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Cloudflare"><a href="#Cloudflare" class="headerlink" title="Cloudflare"></a>Cloudflare</h3><p>首先在Cloudflare的安全性→安全规则中点击创建规则</p>
+<p><img src="/img/1771656003-e12c63b3c06b22352783769b7b4011c8-1024x496.png"></p>
+<p>随后创建两条规则：</p>
+<p>1.<strong>阻止常见后门路径下的 PHP 文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(http.request.uri.path contains &quot;/update/&quot; and http.request.uri.path contains &quot;.php&quot;) or (http.request.uri.path contains &quot;/upgrade/&quot; and http.request.uri.path contains &quot;.php&quot;) or (http.request.uri.path contains &quot;/backup/&quot; and http.request.uri.path contains &quot;.php&quot;) or (http.request.uri.path contains &quot;/tmp/&quot; and http.request.uri.path contains &quot;.php&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>随后采取阻止措施。</p>
+<p>2.<strong>阻止 WordPress 核心和内容目录下的 PHP 文件以及xmlrpc.php</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(http.request.uri.path contains &quot;/wp-includes/&quot; and http.request.uri.path contains &quot;.php&quot;) or (http.request.uri.path contains &quot;/wp-content/&quot; and http.request.uri.path contains &quot;.php&quot;) or (http.request.uri.path contains &quot;/xmlrpc.php&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>随后采取阻止措施。</p>
+<p>规则保存后，再用代理 IP 访问那些路径，几乎都是 403。( •̀ ω •́ )y</p>
+<p>完事之后，我们再来看一下日志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2026/02/20 05:11:20 [error] 1357777#0: *672950 directory index of &quot;/www/.../wp-includes/&quot; is forbidden</span><br><span class="line">2026/02/20 05:11:52 [error] 1357777#0: *672974 directory index of &quot;/www/.../wp-includes/js/&quot; is forbidden</span><br><span class="line">2026/02/20 05:12:05 [error] 1357777#0: *672984 access forbidden by rule, client: ... request: &quot;GET /wp-content/plugins/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>会很明显的看到全是<strong>forbidden</strong>，（这就代表这些访问已经被Nginx返回403拒绝啦♪(´▽｀)）没有一条 PHP 错误。Cloudflare事件里也看到自定义规则在拦截那些后门路径的探测。</p>
+<p><img src="/img/1771656979-8dc77e0586444f41923db91ee5efefb1-1024x496.png"></p>
+<p>这样一来的话，针对于前言提到的问题，我们便可以有效地缓解啦。(oﾟvﾟ)ノ</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by Leapan, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2026/02/22/2026-02-22-second-anniversary/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">建站两周年啦！</h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2026/01/22/2026-01-22-css-selectors-and-specificity/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title">CSS常见选择器及权重特异性详解</h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">导航</h2>
+        
+        <a target="_blank" rel="noopener" href="https://www.gardenwalk.moe/" class="item">主页</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" class="item">主站</a>
+        
+        <a href="/reciprocal-linking" class="item">友情链接</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/faq" class="item">FAQ</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" class="item">RSS</a>
+        
+        <a href="/about" class="item">关于</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">联系</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Leapan-01" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://x.com/leapan_01" class="item">Twitter</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/667164368" class="item">Bilibili</a>
+        
+        <a href="mailto:lp-gardenwalk@outlook.com" class="item">E-mail</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 Leapan<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">Copyright © 2024-2026 by Leapan All Rights Reserved. | <a target="_blank" rel="noopener" href="https://icp.gov.moe/?keyword=20243222">萌ICP备20243222号</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>

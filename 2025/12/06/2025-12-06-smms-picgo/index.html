@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>SMMS图床推荐及PicGo的使用教程 - Leapan&#39;s Blog-数字田园的悠然漫步(备用站)</title>
+  
+    <link rel="shortcut icon" href="https://files.seeusercontent.com/2026/04/18/W5xo/1737602734-icon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="嘛，说到博客的图片存放，果然还是得找个免费又安定的地方才行吧。这次试了SMMS和PicGo这个组合，说是免费，但结果却意外地安定又好用呢。（乐毕竟稳定使用了大半年，到是没有太多缺点，但是5GB的空间也完全都用了吧。那么，下面就详细说说，这个让人安心推荐的组合，毕竟能节省下不少服务器的带宽，对写博客可是帮了大忙了呢。（笑 (2026.2.12)更新：SMMS图床现在已经全面迁移至https:&#x2F;&#x2F;s.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SMMS图床推荐及PicGo的使用教程">
+<meta property="og:url" content="https://leapan_01.github.io/2025/12/06/2025-12-06-smms-picgo/index.html">
+<meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
+<meta property="og:description" content="嘛，说到博客的图片存放，果然还是得找个免费又安定的地方才行吧。这次试了SMMS和PicGo这个组合，说是免费，但结果却意外地安定又好用呢。（乐毕竟稳定使用了大半年，到是没有太多缺点，但是5GB的空间也完全都用了吧。那么，下面就详细说说，这个让人安心推荐的组合，毕竟能节省下不少服务器的带宽，对写博客可是帮了大忙了呢。（笑 (2026.2.12)更新：SMMS图床现在已经全面迁移至https:&#x2F;&#x2F;s.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leapan_01.github.io/img/1765005990-483d467df68ccc98abcace78cd59417d-1024x533.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1765028997-9817a33f2fb9f7032a7c3342bc402cbd-1024x496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1765029002-97dc0d5bb42079d6082df2167803ba14-1024x496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1765029540-c3abfe9ac89f53e005a85b3162ccd580-1024x496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1767089470-369e3130c38fd2cb6111dd09fac8a062-1024x496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1767089915-e2da3e64d678808eeff1f3c12b6a07a4.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1767090165-05c3596dc47e9311db80d899c6ab6091.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1767090325-24cce91f93740628127d161ccf5de097.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1767090338-524656d59228cb482b77109bd6f437e8.png">
+<meta property="article:published_time" content="2025-12-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
+<meta property="article:author" content="Leapan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leapan_01.github.io/img/1765005990-483d467df68ccc98abcace78cd59417d-1024x533.png">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Leapan&#39;s Blog(备用站)</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" style="--index: 1">主站</a>
+      
+      <a class="nav-item" href="/reciprocal-linking" style="--index: 2">友情链接</a>
+      
+      <a class="nav-item" href="/archives" style="--index: 3">Archives</a>
+      
+      <a class="nav-item" href="/faq" style="--index: 4">FAQ</a>
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" style="--index: 5">RSS</a>
+      
+      <a class="nav-item" href="/about" style="--index: 6">关于</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 7"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/integrated-course/">integrated-course</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2025-12-06T00:00:00+08:00">
+      December 6, 2025
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">SMMS图床推荐及PicGo的使用教程</h1>
+  </div>
+
+  <div class="content">
+    <p>嘛，说到博客的图片存放，<br>果然还是得找个免费又安定的地方才行吧。<br>这次试了SMMS和PicGo这个组合，<br>说是免费，<br>但结果却意外地安定又好用呢。（乐<br>毕竟稳定使用了大半年，<br>到是没有太多缺点，<br>但是5GB的空间也完全都用了吧。<br>那么，<br>下面就详细说说，<br>这个让人安心推荐的组合，<br>毕竟能节省下不少服务器的带宽，<br>对写博客可是帮了大忙了呢。（笑</p>
+<p>(2026.2.12)更新：SMMS图床现在已经全面迁移至<a target="_blank" rel="noopener" href="https://s.ee/">https://s.ee/</a>，请将下面的所有smms.app或sm.ms替换成s.ee。</p>
+<h2 id="什么是图床？以及图床究竟有什么用？"><a href="#什么是图床？以及图床究竟有什么用？" class="headerlink" title="什么是图床？以及图床究竟有什么用？"></a>什么是图床？以及图床究竟有什么用？</h2><p><img src="/img/1765005990-483d467df68ccc98abcace78cd59417d-1024x533.png"></p>
+<p>顾名思义，图床即为一个<strong>独立在你的服务器</strong>之外，专门储存图片的地方。</p>
+<p>有了图床，最显而易见的优点是减轻并发压力。先前需要你的服务器所处理的大量并发图片项目，现在全部转交给了图床服务器，用琪露诺的脑子都会想到这样会能有效地减轻服务器并发的压力，尤其是对于一些小型的虚拟主机来说（虽然使用LazyLoading也能达到这样效果，但总比把任务完全交给服务器好多了罢）。</p>
+<p>另外地，有些图床CDN网络是分布在全世界的，这样的话，访问者都从离他们最近的节点快速加载图片，大大提升了访问体验。某个不知名的心理学家说过：“如果一个网页五秒也没加载出来图片的话，那么我一定会选择关闭它。”事实的确如此。在当今互联网信息爆炸的时代，人们的耐心早已被短视频磨没了。如果这个网站不是必须且重要的话捏，那么大多数人就会选择直接跳过或者关闭，因此保持好网站的加载速度是至关重要的一环。</p>
+<p>最大，最好，最免费的图床便是自己用Github来搭建一个。但显而易见地，中国大陆地区有时总是莫名奇妙地对Github的服务进行谜之屏蔽的操作，这对大陆的访问用户非常不太友好。</p>
+<p><img src="/img/1765028997-9817a33f2fb9f7032a7c3342bc402cbd-1024x496.png"></p>
+<figure>
+
+<p><img src="/img/1765029002-97dc0d5bb42079d6082df2167803ba14-1024x496.png"></p>
+<figcaption>
+
+<p><em>之前甚至有过超时一大片的现象</em></p>
+</figcaption>
+
+</figure>
+
+<p>然而其他的免费图床却良莠不齐，显然，你只要Bing搜索图床，就能跳出一大堆不知名的打着免费旗号的厂商，但随时都会有跑路的风险。或者打着审查的旗号会莫名其妙地屏蔽掉你的图片。</p>
+<p>但免费还好用的图床还是有的，SMMS免费版5GB的空间在初期是也完全够用，5000多张图片还是足够的。（以500KB每张计算)。</p>
+<p><img src="/img/1765029540-c3abfe9ac89f53e005a85b3162ccd580-1024x496.png"></p>
+<p>当然，为了方便，我们可以使用像PicGo这样的客户端来真正将图床“放”在本地，免得每次都需要打开网页的不便。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>打开<a target="_blank" rel="noopener" href="https://sm.ms/">SM.MS</a>的官网，点击Sign Up来进行注册，随后转到User子目录下的Dashboard页面，在API Token选项中记住自己的Secret Token</p>
+<p><img src="/img/1767089470-369e3130c38fd2cb6111dd09fac8a062-1024x496.png"></p>
+<p>然后我们需要去PicGo的<a target="_blank" rel="noopener" href="https://github.com/molunerfinn/PicGo">Github官网</a>上下载好最新版本，并安装好，随后我们在图床设置中找到SMMS。在设定Token中填入你刚才记住的Secret Token，在备用上传域名中填入smms.app。</p>
+<p><img src="/img/1767089915-e2da3e64d678808eeff1f3c12b6a07a4.png"></p>
+<p>随后便大功告成啦，这时我们便实现了无需打开网页，直接从客户端上传的功能，此时你可以上传一张图片来试试。你可以在电脑右下角发现提示。</p>
+<p><img src="/img/1767090165-05c3596dc47e9311db80d899c6ab6091.png"></p>
+<p>当然，在PicGo中你也可以直接查看你图床里的现有照片，同时PicGo也提供了很强的拓展插件功能。</p>
+<p><img src="/img/1767090325-24cce91f93740628127d161ccf5de097.png"></p>
+<p><img src="/img/1767090338-524656d59228cb482b77109bd6f437e8.png"></p>
+<p>不过嘛，图床也好，插件也罢，都不过是给内容铺的路。要是路铺踏实了，走过的人舒服，自己走着也轻快，对吧？</p>
+<p>（乐</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by Leapan, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2025/12/29/2025-12-29-474/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title"></h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2025/07/06/2025-07-06-blocking-ip-access-in-nginx/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title">在Nginx服务器中禁止直接通过IP地址访问网站</h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">导航</h2>
+        
+        <a target="_blank" rel="noopener" href="https://www.gardenwalk.moe/" class="item">主页</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" class="item">主站</a>
+        
+        <a href="/reciprocal-linking" class="item">友情链接</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/faq" class="item">FAQ</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" class="item">RSS</a>
+        
+        <a href="/about" class="item">关于</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">联系</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Leapan-01" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://x.com/leapan_01" class="item">Twitter</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/667164368" class="item">Bilibili</a>
+        
+        <a href="mailto:lp-gardenwalk@outlook.com" class="item">E-mail</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 Leapan<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">Copyright © 2024-2026 by Leapan All Rights Reserved. | <a target="_blank" rel="noopener" href="https://icp.gov.moe/?keyword=20243222">萌ICP备20243222号</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>Cloudflare优化指南（缓存篇） - Leapan&#39;s Blog-数字田园的悠然漫步(备用站)</title>
+  
+    <link rel="shortcut icon" href="https://files.seeusercontent.com/2026/04/18/W5xo/1737602734-icon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="在我们遇到DDoS攻击，或是想要为网站的安全性“添砖加瓦”的时候，第一时间就会想到为网站接入Cloudflare。 然而，由于中国大陆地区的运营商有时会对Cloudflare的CDN节点进行谜之屏蔽的操作，而且免费版的CDN服务经常会分配到美国的节点，此时你再次打开测速网站，其结果很有可能会是下面这样↓  难道中国大陆地区真的不适合接入Cloudflare吗？ 实则不然，其问题极大可能是缓存没有设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cloudflare优化指南（缓存篇）">
+<meta property="og:url" content="https://leapan_01.github.io/2025/03/07/2025-03-07-cloudflare-optimization-guide-1/index.html">
+<meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
+<meta property="og:description" content="在我们遇到DDoS攻击，或是想要为网站的安全性“添砖加瓦”的时候，第一时间就会想到为网站接入Cloudflare。 然而，由于中国大陆地区的运营商有时会对Cloudflare的CDN节点进行谜之屏蔽的操作，而且免费版的CDN服务经常会分配到美国的节点，此时你再次打开测速网站，其结果很有可能会是下面这样↓  难道中国大陆地区真的不适合接入Cloudflare吗？ 实则不然，其问题极大可能是缓存没有设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leapan_01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741009940-e6d7894a4e98498c89a50cf578b24ab5.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741092283-2f484180063cd98b04de697ea4bec7b.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741345401-1741345304457_24B17436-CC1F-42da-89ED-81A28899492D.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741346843-1741346473331_74C5295A-D5CA-4e73-B28A-09F8210527AE-1024x795.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741348015-1741346497258_B656FBA5-C81F-4cde-9586-4164A2368220-1024x787.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741348032-1741346672279_51FA12B6-74D7-4a25-B09F-73AC0C3329A0-1024x647.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741348127-2d78f7d5dd704e898b71b7577815a5cd-1024x486.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741349290-0a0dc5e652fadcb8a0c59b638d6954c6-1024x500.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1741350049-1741350039564_DD8C15A0-BACA-4616-A3FE-D087A599134C.png">
+<meta property="article:published_time" content="2025-03-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
+<meta property="article:author" content="Leapan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leapan_01.github.io/img/1740285267-79f1ad55996742f093b003b8e56063c9.png">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Leapan&#39;s Blog(备用站)</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" style="--index: 1">主站</a>
+      
+      <a class="nav-item" href="/reciprocal-linking" style="--index: 2">友情链接</a>
+      
+      <a class="nav-item" href="/archives" style="--index: 3">Archives</a>
+      
+      <a class="nav-item" href="/faq" style="--index: 4">FAQ</a>
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" style="--index: 5">RSS</a>
+      
+      <a class="nav-item" href="/about" style="--index: 6">关于</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 7"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/technology/">technology</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2025-03-07T00:00:00+08:00">
+      March 7, 2025
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">Cloudflare优化指南（缓存篇）</h1>
+  </div>
+
+  <div class="content">
+    <p>在我们遇到DDoS攻击，或是想要为网站的安全性“添砖加瓦”的时候，第一时间就会想到为网站接入Cloudflare。</p>
+<p>然而，由于中国大陆地区的运营商有时会对Cloudflare的CDN节点进行谜之屏蔽的操作，而且免费版的CDN服务经常会分配到美国的节点，此时你再次打开测速网站，其结果很有可能会是下面这样↓</p>
+<p><img src="/img/1740285267-79f1ad55996742f093b003b8e56063c9.png"></p>
+<p>难道中国大陆地区真的不适合接入Cloudflare吗？</p>
+<p>实则不然，其问题极大可能是缓存没有设置好。</p>
+<p>我们需要先了解一下原理。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure>
+
+<p><img src="/img/1741009940-e6d7894a4e98498c89a50cf578b24ab5.png"></p>
+<figcaption>
+
+<p><a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/cdn/caching-static-and-dynamic-content/"><em>缓存静态和动态内容 | 它是如何工作的？ | Cloudflare</em></a></p>
+</figcaption>
+
+</figure>
+
+<p>根据上面查阅到的官方文档可以分析，当我们的网站接入Cloudflare并开启“小黄云”时，Cloudflare只会对你的网站的JavaScript、CSS 文件等静态文件进行缓存，并不会对你的网站的静态HTML页面缓存。</p>
+<p>你也可以按F12打开开发者工具，在“网络”一栏里观察Cf-Cache-Status的响应标头，若如图片一样显示的是<strong>DYNAMIC</strong>，即代表动态缓存，就如上文提到的一样，**此时Cloudflare并不会对你的网站的静态HTML页面缓存。**如果出现其他的字样，请对照下面的描述来分析。</p>
+<p><img src="/img/1741092283-2f484180063cd98b04de697ea4bec7b.png"></p>
+<p>Cf-Cache-Status:HIT<br>此时你的文件已经命中缓存。若有用户访问你的网站会直接由CDN服务器响应，不会回源至源服务器。</p>
+<p>Cf-Cache-Status:MISS<br>Cloudflare已经在CDN服务器中查找了你所请求的文件，但是并没有找到，这时候CDN服务器将会回源至你的服务器中获取该文件，当下次请求时该文件就会显示HIT。</p>
+<p>Cf-Cache-Status: BYPASS<br>Cloudflare已经被用户设置不缓存该文件，请求将直接回源至源服务器。</p>
+<p>Cf-Cache-Status:EXPIRED<br>文件的缓存期限已经过期，请求将会再度回源至网站源服务器进行获取文件，当下次请求时该文件就会显示HIT。</p>
+<p>这么来说的话，当访客想要访问你的某一页面，若未配置缓存其请求会通过CDN节点直接回源到你的源服务器，而不是在CDN节点返回已经缓存后的文件。这样一来的话，访问请求的距离会大大地增加，而且会极大地拖慢速度，尤其是针对中国大陆地区。</p>
+<p>这时候，我们就要稍微修改一下页面规则，使Cloudflare对HTML页面进行缓存。</p>
+<p>Cloudflare的缓存原理其实很简单，当用户首次请求你的网站某个页面时，请求会到达最近的 Cloudflare 边缘节点。该节点会向源服务器拉取数据，返回给用户的同时<strong>在边缘节点存储副本</strong>。</p>
+<p>紧接着，当有另一位用户再次访问此页面的时候（缓存没有过期情况下），Cloudflare就会直接返回在边缘节点缓存的副本，从而无需经过你的源服务器。这样就可以有效地节省响应时间了。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>登录你的Cloudflare账户，进入你的域名，在边栏的规则选项中，找到页面规则子选项卡并进入。</p>
+<p><img src="/img/1741345401-1741345304457_24B17436-CC1F-42da-89ED-81A28899492D.png"></p>
+<p>Free计划默认页面规则只有三条，所以我们需要对WordPress进行分析来寻找最优解。需要特别注意的是wp-login和 wp-admin两个页面不能缓存，**否则的话别人可以在未经你授权的境况下，使用CloudflareCDN的缓存页面直接进入到你的后台。**其余页面就正常缓存即可。</p>
+<p>由此，我们就可以得到以下配置方法：</p>
+<p><img src="/img/1741346843-1741346473331_74C5295A-D5CA-4e73-B28A-09F8210527AE-1024x795.png"></p>
+<p><img src="/img/1741348015-1741346497258_B656FBA5-C81F-4cde-9586-4164A2368220-1024x787.png"></p>
+<p><img src="/img/1741348032-1741346672279_51FA12B6-74D7-4a25-B09F-73AC0C3329A0-1024x647.png"></p>
+<p>请将上面的所有的<a target="_blank" rel="noopener" href="http://www.lp-gardenwalk.top替换成你的域名./">www.lp-gardenwalk.top替换成你的域名。</a></p>
+<p><img src="/img/1741348127-2d78f7d5dd704e898b71b7577815a5cd-1024x486.png"></p>
+<p>这里尤其注意一下，页面规则的顺序需要和上图一样，因为Cloudflare默认是从第一条规则顺延到第二条规则，之后才是第三条规则。否则的话将会出现预料不到的错误。</p>
+<p>但是此条规则有一条缺点，Cloudflare会自动对WordPress的文章预览页面进行缓存，如果遇到这个问题，请在边栏的缓存子选项卡的配置中下拉，找到开发模式打开即可。不要忘了在文章编辑完成后关闭开发模式。</p>
+<p><img src="/img/1741349290-0a0dc5e652fadcb8a0c59b638d6954c6-1024x500.png"></p>
+<p>在完成上面的操作后，你可以按F12打开开发者工具，在“网络”一栏里观察Cf-Cache-Status的响应标头，多刷新几次，若如图片一样显示的是<strong>HIT</strong>，即代表设置成功。</p>
+<p><img src="/img/1741350049-1741350039564_DD8C15A0-BACA-4616-A3FE-D087A599134C.png"></p>
+<p>这样的话，你的网站的访问速度就会提升了不少。</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by Leapan, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2025/07/06/2025-07-06-blocking-ip-access-in-nginx/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">在Nginx服务器中禁止直接通过IP地址访问网站</h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2025/02/22/2025-02-22-first-anniversary/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title">建站一周年啦！</h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">导航</h2>
+        
+        <a target="_blank" rel="noopener" href="https://www.gardenwalk.moe/" class="item">主页</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" class="item">主站</a>
+        
+        <a href="/reciprocal-linking" class="item">友情链接</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/faq" class="item">FAQ</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" class="item">RSS</a>
+        
+        <a href="/about" class="item">关于</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">联系</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Leapan-01" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://x.com/leapan_01" class="item">Twitter</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/667164368" class="item">Bilibili</a>
+        
+        <a href="mailto:lp-gardenwalk@outlook.com" class="item">E-mail</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 Leapan<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">Copyright © 2024-2026 by Leapan All Rights Reserved. | <a target="_blank" rel="noopener" href="https://icp.gov.moe/?keyword=20243222">萌ICP备20243222号</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>

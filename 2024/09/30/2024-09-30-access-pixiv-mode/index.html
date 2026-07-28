@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>PC&amp;amp;移动端访问pixiv方式 - Leapan&#39;s Blog-数字田园的悠然漫步(备用站)</title>
+  
+    <link rel="shortcut icon" href="https://files.seeusercontent.com/2026/04/18/W5xo/1737602734-icon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="pixiv，一个由日本程序员创建的以插图、漫画和小说、艺术为中心的社交网络服务里的虚拟社区网站。以其高质量的作品和涩涩（划掉）众多人气画师而出名。在中国的的各个泛二次元社交媒体上有一定的影响力。 然而在2017年前后，pixiv突然被墙，中国大陆地区的用户均无法直接访问到pixiv，其DNS解析结果为被中国大陆DNS缓存投毒过的专用IP，随后站方通过官方微博表示，“正在调查中国地区无法访问pix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PC&amp;移动端访问pixiv方式">
+<meta property="og:url" content="https://leapan_01.github.io/2024/09/30/2024-09-30-access-pixiv-mode/index.html">
+<meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
+<meta property="og:description" content="pixiv，一个由日本程序员创建的以插图、漫画和小说、艺术为中心的社交网络服务里的虚拟社区网站。以其高质量的作品和涩涩（划掉）众多人气画师而出名。在中国的的各个泛二次元社交媒体上有一定的影响力。 然而在2017年前后，pixiv突然被墙，中国大陆地区的用户均无法直接访问到pixiv，其DNS解析结果为被中国大陆DNS缓存投毒过的专用IP，随后站方通过官方微博表示，“正在调查中国地区无法访问pix">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712744-lQDPJw6COWD_HsnNARrNAXmwP0ZpaCi6aaAHd41hMaDbAA_377_282.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712715-lQDPKH6AmE1vz8nNA5jNB1qwkPfqc5i7jBQHd41hjv62AA_1882_920-1024x501.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712672-lQDPKH-aidNHEMnNAezNBACw8wQJWjklNrQHd41i4XPSAA_1024_492.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712692-lQDPKHDTCl748cnNAfXNBACwpogdBG8gURkHd41j24qkAA_1024_501.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712718-lQDPJyFEW0VAosnNAe7NBACwepAChOKD9C8Hd41k66rEAA_1024_494.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712710-lQDPJxMheiOw8snNAtvNBACwSJR77ilmalAHd41lYoKKAA_1024_731.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712723-lQDPKc9nEYCvI8nNAfDNBACwkSKOp26iSsIHd41lx_XKAA_1024_496.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1737712706-lQDPJwnj4a6NJMnNAj7NBACwNT75xJII0M0Hd41nEBDpAA_1024_574.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1778564336-6a2e8b9ee30f8c9f7f59622a6634c815-473x1024.jpg">
+<meta property="og:image" content="https://leapan_01.github.io/img/1778564780-5eb4b0bfc0f19d6630949fcdf142c9aa-473x1024.jpg">
+<meta property="article:published_time" content="2024-09-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
+<meta property="article:author" content="Leapan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leapan_01.github.io/img/1737712744-lQDPJw6COWD_HsnNARrNAXmwP0ZpaCi6aaAHd41hMaDbAA_377_282.png">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Leapan&#39;s Blog(备用站)</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" style="--index: 1">主站</a>
+      
+      <a class="nav-item" href="/reciprocal-linking" style="--index: 2">友情链接</a>
+      
+      <a class="nav-item" href="/archives" style="--index: 3">Archives</a>
+      
+      <a class="nav-item" href="/faq" style="--index: 4">FAQ</a>
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" style="--index: 5">RSS</a>
+      
+      <a class="nav-item" href="/about" style="--index: 6">关于</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 7"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/integrated-course/">integrated-course</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2024-09-30T00:00:00+08:00">
+      September 30, 2024
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">PC&amp;amp;移动端访问pixiv方式</h1>
+  </div>
+
+  <div class="content">
+    <p><img src="/img/1737712744-lQDPJw6COWD_HsnNARrNAXmwP0ZpaCi6aaAHd41hMaDbAA_377_282.png"></p>
+<p>pixiv，一个由日本程序员创建的以插图、漫画和小说、艺术为中心的社交网络服务里的虚拟社区网站。以其高质量的作品和涩涩（划掉）众多人气画师而出名。在中国的的各个泛二次元社交媒体上有一定的影响力。</p>
+<p>然而在2017年前后，pixiv突然被墙，中国大陆地区的用户均无法直接访问到pixiv，其DNS解析结果为被中国大陆DNS缓存投毒过的专用IP，随后站方通过官方微博表示，“正在调查中国地区无法访问pixiv的原因。”其后网站并未恢复，但官方微博仍继续保持更新。</p>
+<p> 现如今，国内仍然无法正常访问pixiv，上面的一些高质量的插画和漫画随之埋没。本文介绍PC端几种直接或间接访问pixiv的非VPN途径。</p>
+<h1 id="PC端"><a href="#PC端" class="headerlink" title="PC端"></a>PC端</h1><h2 id="浏览器访问"><a href="#浏览器访问" class="headerlink" title="浏览器访问"></a>浏览器访问</h2><h3 id="镜像站"><a href="#镜像站" class="headerlink" title="镜像站"></a>镜像站</h3><h4 id="1-https-pixivic-com"><a href="#1-https-pixivic-com" class="headerlink" title="1. https://pixivic.com"></a>1. <a target="_blank" rel="noopener" href="https://pixivic.com/">https://pixivic.com</a></h4><p><img src="/img/1737712715-lQDPKH6AmE1vz8nNA5jNB1qwkPfqc5i7jBQHd41hjv62AA_1882_920-1024x501.png"></p>
+<p>收录较全面，基本功能均有。 </p>
+<h4 id="2-https-pixiviz-xyz"><a href="#2-https-pixiviz-xyz" class="headerlink" title="2. https://pixiviz.xyz"></a>2. <a target="_blank" rel="noopener" href="https://pixiviz.xyz/">https://pixiviz.xyz</a></h4><p><img src="/img/1737712672-lQDPKH-aidNHEMnNAezNBACw8wQJWjklNrQHd41i4XPSAA_1024_492.png"></p>
+<p>收录全面，基本功能均有，有特色主页。</p>
+<h4 id="3-https-www-vilipix-com"><a href="#3-https-www-vilipix-com" class="headerlink" title="3. https://www.vilipix.com"></a>3. <a target="_blank" rel="noopener" href="https://www.vilipix.com/">https://www.vilipix.com</a></h4><p><img src="/img/1737712692-lQDPKHDTCl748cnNAfXNBACwpogdBG8gURkHd41j24qkAA_1024_501.png"></p>
+<p>收录略全面，基本功能均有，排版最接近原站。</p>
+<h4 id="4-https-pixivel-moe"><a href="#4-https-pixivel-moe" class="headerlink" title="4. https://pixivel.moe/"></a>4. <a target="_blank" rel="noopener" href="https://pixivel.moe/">https://pixivel.moe/</a></h4><p><img src="/img/1737712718-lQDPJyFEW0VAosnNAe7NBACwepAChOKD9C8Hd41k66rEAA_1024_494.png"></p>
+<p>收录最为全面，基本功能最全，有颇具艺术感的特色主页，且可以根据pid来搜索画师以及作品。 </p>
+<h3 id="直接访问"><a href="#直接访问" class="headerlink" title="直接访问"></a>直接访问</h3><p>Watt Toolkit（原名Steam++)是一个集网络加速、库存管理、本地挂卡为一体的多功能Steam工具箱，软件除了能host加速Steam外，还能加速其他如Github,Twitch,Google验证码等。（新版本已经删除pixiv），因此，我们需要下载旧版本：<a target="_blank" rel="noopener" href="https://github.com/BeyondDimension/SteamTools/releases/tag/1.1.4">Release 1.1.4 · BeyondDimension&#x2F;SteamTools · GitHub</a>。</p>
+<p>安装完成后点击左侧的“社区服务”，在“支持的代理服务”一栏内下滑，将“Pixiv”及“Pixiv”图片勾选，点击启动加速即可。</p>
+<p><img src="/img/1737712710-lQDPJxMheiOw8snNAtvNBACwSJR77ilmalAHd41lYoKKAA_1024_731.png"></p>
+<p>完成后，访问pixiv官网：<a target="_blank" rel="noopener" href="https://www.pixiv.net/">插画交流网站[pixiv]</a>，耐心等待10-30秒加载，即可成功。</p>
+<p><img src="/img/1737712723-lQDPKc9nEYCvI8nNAfDNBACwkSKOp26iSsIHd41lx_XKAA_1024_496.png"></p>
+<h2 id="第三方客户端访问"><a href="#第三方客户端访问" class="headerlink" title="第三方客户端访问"></a>第三方客户端访问</h2><p>采用的软件名称为Pixeval，是一个漂亮的Pixiv第三方桌面程序。</p>
+<p>下载前，请检查是否安装.NET8.0，下载地址：<a target="_blank" rel="noopener" href="https://download.visualstudio.microsoft.com/download/pr/907765b0-2bf8-494e-93aa-5ef9553c5d68/a9308dc010617e6716c0e6abd53b05ce/windowsdesktop-runtime-8.0.8-win-x64.exe">.NET 8.0 Desktop Runtime (v8.0.8) - Windows x64 Installer</a>。 </p>
+<p> Pixeval下载地址：<a target="_blank" rel="noopener" href="https://github.com/Pixeval/Pixeval/releases/tag/4.2.2">Release Pixeval 4.2.2 · Pixeval&#x2F;Pixeval · GitHub</a>，可以直接在Microsoft商店下载，也可以下载你的系统架构对应的misx文件，完成后双击即可。</p>
+<p><img src="/img/1737712706-lQDPJwnj4a6NJMnNAj7NBACwNT75xJII0M0Hd41nEBDpAA_1024_574.png"></p>
+<p> 打开后，会显示如上界面，选择合适的登录方式登录即可。完成后即可成功进入软件主界面。</p>
+<h1 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h1><h2 id="第三方客户端"><a href="#第三方客户端" class="headerlink" title="第三方客户端"></a>第三方客户端</h2><h3 id="PixEz"><a href="#PixEz" class="headerlink" title="PixEz"></a>PixEz</h3><p>一个简单且美观的应用，同样支持中国大陆地区直连。且访问速度还算不错。支持IOS（仅能外区ID下载）及安卓端，且完全免费。</p>
+<p><img src="/img/1778564336-6a2e8b9ee30f8c9f7f59622a6634c815-473x1024.jpg"></p>
+<p>下载链接：<a target="_blank" rel="noopener" href="https://github.com/Notsfsssf/pixez-flutter">https://github.com/Notsfsssf/pixez-flutter</a></p>
+<h4 id="Pix助手"><a href="#Pix助手" class="headerlink" title="Pix助手"></a>Pix助手</h4><p>功能最全的移动客户端，页面简洁且支持IOS端国区和安卓，分免费版和付费版两个选择，支持大陆直连。</p>
+<p><img src="/img/1778564780-5eb4b0bfc0f19d6630949fcdf142c9aa-473x1024.jpg"></p>
+<p>官网<a target="_blank" rel="noopener" href="https://www.pivlite.com/">https://www.pivlite.com/</a></p>
+<p>官方微博：<a target="_blank" rel="noopener" href="https://weibo.com/2975751864?refer_flag=1001030103_">https://weibo.com/2975751864?refer_flag&#x3D;1001030103_</a></p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by Leapan, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2025/01/01/2025-01-01-happy-new-year/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">元旦快乐！</h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2024/09/07/2024-09-07-september-essay/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title">九月随笔</h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">导航</h2>
+        
+        <a target="_blank" rel="noopener" href="https://www.gardenwalk.moe/" class="item">主页</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" class="item">主站</a>
+        
+        <a href="/reciprocal-linking" class="item">友情链接</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/faq" class="item">FAQ</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" class="item">RSS</a>
+        
+        <a href="/about" class="item">关于</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">联系</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Leapan-01" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://x.com/leapan_01" class="item">Twitter</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/667164368" class="item">Bilibili</a>
+        
+        <a href="mailto:lp-gardenwalk@outlook.com" class="item">E-mail</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 Leapan<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">Copyright © 2024-2026 by Leapan All Rights Reserved. | <a target="_blank" rel="noopener" href="https://icp.gov.moe/?keyword=20243222">萌ICP备20243222号</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>

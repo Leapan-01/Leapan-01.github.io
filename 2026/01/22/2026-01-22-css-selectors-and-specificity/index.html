@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head prefix="og: https://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>CSS常见选择器及权重特异性详解 - Leapan&#39;s Blog-数字田园的悠然漫步(备用站)</title>
+  
+    <link rel="shortcut icon" href="https://files.seeusercontent.com/2026/04/18/W5xo/1737602734-icon.png">
+  
+  
+  <link rel='manifest' href='/manifest.json'>
+  
+
+  <meta name="description" content="嘛，说到写博客时的CSS样式，果然还是会遇到一些规则“打架”的麻烦事吧。明明写了正确的样式，可页面元素还是我行我素，最后只好掏出!important，让代码的可读性变得一团糟了呢&#x2F;(ㄒoㄒ)&#x2F;~~实则不然，这一切的背后，可是有**特异性（Specificity）**的这套规则在悄悄运作哦。毕竟只有明白了这套规则，才能写出优雅可控的CSS呢。（笑 当然，我们先需要好好认识一下CS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS常见选择器及权重特异性详解">
+<meta property="og:url" content="https://leapan_01.github.io/2026/01/22/2026-01-22-css-selectors-and-specificity/index.html">
+<meta property="og:site_name" content="Leapan&#39;s Blog-数字田园的悠然漫步(备用站)">
+<meta property="og:description" content="嘛，说到写博客时的CSS样式，果然还是会遇到一些规则“打架”的麻烦事吧。明明写了正确的样式，可页面元素还是我行我素，最后只好掏出!important，让代码的可读性变得一团糟了呢&#x2F;(ㄒoㄒ)&#x2F;~~实则不然，这一切的背后，可是有**特异性（Specificity）**的这套规则在悄悄运作哦。毕竟只有明白了这套规则，才能写出优雅可控的CSS呢。（笑 当然，我们先需要好好认识一下CS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leapan_01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1769059742-f1aaefc156780ebb884ee4c225438777.png">
+<meta property="og:image" content="https://leapan_01.github.io/img/1771933624-image-827x1024.png">
+<meta property="article:published_time" content="2026-01-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T14:28:30.831Z">
+<meta property="article:author" content="Leapan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leapan_01.github.io/img/1768799667-105460f51bd7154411a539c54de3c41a.png">
+
+  <script>window.ThemeCupertino = {}</script>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/simple-icons-font@16/font/simple-icons.min.css">
+
+  
+  
+  
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.min.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+
+  
+  
+<link rel="stylesheet" href="/css/components/card.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/button.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/badge.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/utilities.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/components/carousel.css">
+
+  
+  
+  <script>ThemeCupertino['_calloutStyles'] = `
+<link rel="stylesheet" href="/css/components/callout.css">
+`</script>
+  
+<script src="/js/components/callout.js"></script>
+
+  
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/toc.css">
+
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+  
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/scroll-reveal.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/view-transition.css">
+
+  
+  
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  
+<link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+
+  
+<script src="/js/smooth-scroll.js"></script>
+
+  
+
+  
+<script src="/js/head.js"></script>
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+  <body
+    data-color-scheme="auto"
+    data-uppercase-categories="true"
+    
+    data-config-root="/"
+    
+    data-toc="true"
+    data-toc-max-depth="3"
+    
+    
+    
+    data-scroll-reveal-disappear="false"
+    data-scroll-reveal-query=".scroll-reveal, .post-list-item, .card, .content p img, .content .block-large img"
+    
+    data-nav-blur-gradient="true"
+    style="--config-corner-squircle: true"
+  >
+    
+<script src="/js/body-top.js"></script>
+
+    <a href="#main-content" id="skip-to-content">Skip to content</a>
+    
+
+<div class="nav-mask">
+  
+  <div style="--sharp: 1"></div>
+  
+  <div style="--sharp: 2"></div>
+  
+  <div style="--sharp: 3"></div>
+  
+  <div style="--sharp: 4"></div>
+  
+  <div style="--sharp: 5"></div>
+  
+  <div style="--sharp: 6"></div>
+  
+</div>
+
+<nav id="theme-nav">
+  <div class="inner">
+    <a class="title" href="/">Leapan&#39;s Blog(备用站)</a>
+    <div class="nav-arrow"></div>
+    <div class="nav-items">
+      <a class="nav-item nav-item-home" href="/" style="--index: 0">Home</a>
+
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" style="--index: 1">主站</a>
+      
+      <a class="nav-item" href="/reciprocal-linking" style="--index: 2">友情链接</a>
+      
+      <a class="nav-item" href="/archives" style="--index: 3">Archives</a>
+      
+      <a class="nav-item" href="/faq" style="--index: 4">FAQ</a>
+      
+      <a class="nav-item" target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" style="--index: 5">RSS</a>
+      
+      <a class="nav-item" href="/about" style="--index: 6">关于</a>
+      
+      <a class="nav-item is-icon" href="/search" style="--index: 7"><i class="bi bi-search"></i></a>
+      
+    </div>
+  </div>
+</nav>
+
+    <main id="main-content" data-pagefind-body>
+      
+<article class="post">
+  
+  <div class="meta">
+    
+    <div class="categories text-uppercase">
+    
+      <a href="/categories/technology/">technology</a>
+    
+    </div>
+    
+
+    
+    <time class="date" datetime="2026-01-22T00:00:00+08:00">
+      January 22, 2026
+    </time>
+    
+
+    <h1 class="title" data-pagefind-meta="title">CSS常见选择器及权重特异性详解</h1>
+  </div>
+
+  <div class="content">
+    <p>嘛，说到写博客时的CSS样式，<br>果然还是会遇到一些规则“打架”的麻烦事吧。<br>明明写了正确的样式，<br>可页面元素还是我行我素，<br>最后只好掏出!important，<br>让代码的可读性变得一团糟了呢&#x2F;(ㄒoㄒ)&#x2F;~~<br>实则不然，<br>这一切的背后，<br>可是有**特异性（Specificity）**的这套规则在悄悄运作哦。<br>毕竟只有明白了这套规则，<br>才能写出优雅可控的CSS呢。<br>（笑</p>
+<p><strong>当然，我们先需要好好认识一下CSS选择器的种类</strong>。</p>
+<p>先说说最基础的吧</p>
+<h2 id="1-CSS选择器种类"><a href="#1-CSS选择器种类" class="headerlink" title="1.CSS选择器种类"></a>1.CSS选择器种类</h2><h3 id="元素选择器"><a href="#元素选择器" class="headerlink" title="元素选择器"></a>元素选择器</h3><p>元素选择器是最常见的CSS选择器之一，它通过选择在一整个HTML文件中相匹配的标签，来赋予相匹配的样式。</p>
+<p>语法形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">元素名称&#123;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如下面的示例↓</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">h1&#123;</span><br><span class="line">  color:yellow;</span><br><span class="line">  font-size:64px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段示例将会把<strong>所有</strong>h1标签包裹的元素的颜色设置为黄色，文字大小设置为64px。</p>
+<p>当然，这种方式一次给所有的同种标签来设置统一样式。可是嘛，用baka的脑子都会想到，当我们想给某些特定段落给特殊待遇的时候，这就有点相形见绌了。(´ｰ∀ｰ`)</p>
+<h3 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h3><p>类选择器通过选择在整个HTML文件中，具有相同定义属性的元素，来赋予相匹配的样式。</p>
+<p>语法形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.class属性名称&#123;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用语法格式形如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;标签名称 class=&quot;类选择器名称1 类选择器名称2.....&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在类选择器中，你可以同时在一个标签中同时叠加两个以上的类选择器，其最终样式会叠加。当然，如果你使用两个以上的类选择器对同一个样式进行定义，那么最后定义的样式会起作用。</p>
+<p>比如下面的实例↓</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;style&gt;</span><br><span class="line">        .class1&#123;</span><br><span class="line">            color:red；</span><br><span class="line">        &#125;</span><br><span class="line">        .class1&#123;</span><br><span class="line">            color:blue;</span><br><span class="line">            font-size:62px;    </span><br><span class="line">        &#125;</span><br><span class="line">        .class2&#123;</span><br><span class="line">            text-decoration: underline;</span><br><span class="line">        &#125;</span><br><span class="line">        &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1 class=&quot;class1&quot;&gt;样式1&lt;/h1&gt;</span><br><span class="line">        &lt;h2 class=&quot;class1 class2&quot;&gt;样式1和样式2的叠加&lt;/h2&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;       </span><br></pre></td></tr></table></figure>
+
+<p>在这段实例中，我们对class1这个样式定义了两次，所以只有第二个会生效。而后我们又对h2标签使用了两个类选择器，最后会呈现叠加的效果，就像下面这样。ヾ(•ω•`)o</p>
+<p><img src="/img/1768799667-105460f51bd7154411a539c54de3c41a.png"></p>
+<p>你可能会注意到，这种方式可能会比一股脑地全选好一些，当然地，不过如果有另一个指令也用类选择器来定义了冲突的样式话捏，那就要看他们谁在谁的后面。</p>
+<h3 id="ID选择器"><a href="#ID选择器" class="headerlink" title="ID选择器"></a>ID选择器</h3><p>ID选择器的作用效果与类选择器相似，但也有几点不同(°ー°〃)：</p>
+<ul>
+<li><p>ID选择器在引用时是使用ID属性</p>
+</li>
+<li><p>ID选择器的语法规定前面使用#号来引入</p>
+</li>
+<li><p>在同一个HTML文档中，只允许使用一次同一ID选择器（也就是说，不同的标签不可以拥有相同的ID，但可以拥有相同的class属性。这表明了ID选择器具有<strong>唯一性</strong>。）</p>
+</li>
+<li><p>ID选择器不能叠加使用</p>
+</li>
+</ul>
+<p>语法形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#ID名称&#123;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用语法格式形如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;标签名称 id=&quot;id名称&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>比如下面的示例↓</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#exampleid1&#123;</span><br><span class="line">  color:yellow;</span><br><span class="line">  font-size:64px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段示例，将会把拥有exampleid1的标签所包裹的元素的颜色设置为黄色，文字大小设置为64px。</p>
+<p>显然地，<strong>这是最精确的方式</strong>，一次只选择唯一的相匹配的标签。只因为如此，当给某个元素下指令时候捏，其他的选择器通常竞争不过它，除非有特殊情况。</p>
+<h3 id="后代选择器-父子选择器"><a href="#后代选择器-父子选择器" class="headerlink" title="后代选择器 父子选择器"></a>后代选择器 父子选择器</h3><p>我们先看一段代码片段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;p&gt;直接子元素段落&lt;/p&gt;          &lt;!-- 层级1 --&gt;</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">        &lt;p&gt;孙子元素段落&lt;/p&gt;        &lt;!-- 层级2 --&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;p&gt;曾孙元素段落&lt;/p&gt;     &lt;!-- 层级3 --&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/section&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>后代选择器和父子选择器都是选择子元素的选择器。不同的是，<strong>后代选择器可以选择嵌套多层的元素，在上面的实例中，后代选择器可以直接选择到层级三（包含孙子和曾孙元素段落），而父子选择器只能选择到层级二（仅有孙子元素段落）。</strong></p>
+<p>后代选择器语法形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">祖先标签 后代标签&#123;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>父子选择器语法形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">父标签&gt;子标签&#123;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    样式属性:属性值;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参照下面的示例，你可以更好体会它。Tips:在这段实例中，后代选择器和父子选择器权重相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;style&gt;</span><br><span class="line">        h2 span&#123;</span><br><span class="line">            color:blue;</span><br><span class="line">            font-size:62px;    </span><br><span class="line">        &#125;</span><br><span class="line">        h2&gt;span&#123;</span><br><span class="line">            text-decoration: underline;</span><br><span class="line">        &#125;</span><br><span class="line">        &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h2&gt;hello</span><br><span class="line">           &lt;span&gt;world&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;h2&gt;hello</span><br><span class="line">            &lt;div&gt;&lt;span&gt;world&lt;/span&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;   </span><br></pre></td></tr></table></figure>
+
+<p>在这段实例中，由于后代选择器可以<strong>可以选择嵌套多层的元素</strong>，所以第一个hello world的world（层级二）和第二个hello world的world（层级三）均可以被添加为为蓝色以及62px。而又因为<strong>父子选择器只能选择到层级二</strong>，所以只有第一个hello world的world（层级二）被添加underline。</p>
+<p><img src="/img/1769059742-f1aaefc156780ebb884ee4c225438777.png"></p>
+<p>这种选择器它通过描述<strong>谁里面的谁</strong>来精准定位目标。而且，<strong>它的优先性由它的几个部分叠加所成。</strong>（⊙ｏ⊙）</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p>伪类选择器：适用于选择处于特殊状态的元素，不是元素的固定属性，而是元素的临时状态。<br>  语法形如：<br>  选择器 伪类{<br>  样式属性:属性值;<br>  样式属性:属性值;<br>  ……<br>  }</p>
+</li>
+<li><p>分组选择器：如果有些选择器定义的样式完全相同，那么就可以使用分组选择器来定义相同的样式。<br>  语法形如：<br>  标签1,标签2……{<br>  样式属性:属性值;<br>  样式属性:属性值;<br>  ……<br>  }</p>
+</li>
+<li><p>相邻选择器：如果两个元素拥有一个相同的父元素，那么可以使用相邻选择器。<br>  语法形如：<br>  子标签1+子标签2{<br>  样式属性:属性值;<br>  样式属性:属性值;<br>  ……<br>  }</p>
+</li>
+<li><p>属性选择器：可以选择有指定属性的元素进行样式设置，比如超链接。<br>  语法形如：<br>  标签名称[属性]{<br>  样式属性:属性值;<br>  样式属性:属性值;<br>  ……<br>  }</p>
+</li>
+</ul>
+<p><strong>那么，一个很自然的问题就来了……</strong></p>
+<p>现在你知道了这些种类繁多的CSS选择器。</p>
+<p>但……</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;style&gt;</span><br><span class="line">        .class1&#123;</span><br><span class="line">            color:red；</span><br><span class="line">        &#125;</span><br><span class="line">        #id1&#123;</span><br><span class="line">            color:blue;   </span><br><span class="line">        &#125;</span><br><span class="line">        &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1 id=&quot;id1&quot; class=&quot;class1&quot;&gt;Hello,World!&lt;/h1&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;  </span><br></pre></td></tr></table></figure>
+
+<p>在这段实例中，“Hello,World!”的颜色究竟是红色还是蓝色？╰（‵□′）╯</p>
+<p><strong>浏览器到底应该听谁的？</strong></p>
+<p>事实上，早在1996时的CSS1的发布上，W3C就规定了一套规则，用来解决上面这段实例中的问题……</p>
+<h2 id="2-CSS特异性-Specificity"><a href="#2-CSS特异性-Specificity" class="headerlink" title="2.CSS特异性(Specificity)"></a>2.CSS特异性(Specificity)</h2><h3 id="基本定义与规则"><a href="#基本定义与规则" class="headerlink" title="基本定义与规则"></a>基本定义与规则</h3><p>CSS特异性(Specificity)是指浏览器**在解析 CSS 时，决定哪条样式规则将最终应用于元素的优先级计算系统。**或者说，可以把特异性想象成选择器的”权重分数”——分数高的选择器说了算q(≧▽≦q)！</p>
+<p>一般地，<strong>我们用四级权重系统来表示特异性，格式为：(a, b, c, d)</strong>。对于权重系统，有以下规定：</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>名称</th>
+<th>表示方式</th>
+<th>权重值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>行内样式</td>
+<td>(1,0,0,0)</td>
+<td>1000</td>
+<td>style&#x3D;”color: red;”</td>
+</tr>
+<tr>
+<td>B</td>
+<td>ID 选择器</td>
+<td>(0,1,0,0)</td>
+<td>0100</td>
+<td>#header</td>
+</tr>
+<tr>
+<td>C</td>
+<td>类&#x2F;属性&#x2F;伪类</td>
+<td>(0,0,1,0)</td>
+<td>0010</td>
+<td>.class, :hover, [type]</td>
+</tr>
+<tr>
+<td>D</td>
+<td>元素&#x2F;伪元素</td>
+<td>(0,0,0,1)</td>
+<td>0001</td>
+<td>div, p, ::before</td>
+</tr>
+<tr>
+<td>E</td>
+<td>通配符</td>
+<td>(0,0,0,0)</td>
+<td>0000</td>
+<td>*</td>
+</tr>
+</tbody></table>
+<p>当然，我们可以有更形象的比喻↓</p>
+<figure>
+
+<p><img src="/img/1771933624-image-827x1024.png"></p>
+<figcaption>
+
+<p><em>来自《跟Wakaba酱一起学网站制作》书籍</em></p>
+</figcaption>
+
+</figure>
+
+<p>针对于权重系统，有以下比较规则：</p>
+<ol>
+<li><p><strong>先比较a</strong>：行内样式数量多的胜出</p>
+</li>
+<li><p><strong>如果a相同，比较b</strong>：ID选择器数量多的胜出</p>
+</li>
+<li><p><strong>如果b相同，比较c</strong>：类&#x2F;属性&#x2F;伪类选择器数量多的胜出</p>
+</li>
+<li><p><strong>如果c相同，比较d</strong>：元素&#x2F;伪元素选择器数量多的胜出</p>
+</li>
+<li><p><strong>如果都相同</strong>：后出现的规则胜出（后来居上原则）</p>
+</li>
+</ol>
+<p>让我们把之前提到的几个选择器来比较一下权重：</p>
+<ol>
+<li><p>p → 0个ID，0个类，1个元素 → (0,0,0,1)</p>
+</li>
+<li><p>.highlight → 0个ID，1个类，0个元素 → (0,0,1,0)</p>
+</li>
+<li><p>#main → 1个ID，0个类，0个元素 → (0,1,0,0)</p>
+</li>
+</ol>
+<p>如果它们三个都想给同一个段落上色，显而易见地：#main 的 (0,1,0,0) 胜出，因为它的b列（ID列）最大。</p>
+<p>让我们再思考一个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* styleA */</span><br><span class="line">div div div div div div div div div div div &#123;</span><br><span class="line">  color: red;    /* 十一个div元素选择器！∑( 口 || */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* styleB */</span><br><span class="line">.class1&#123;</span><br><span class="line">  color: blue;   /* 一个类选择器 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段示例中，如果这个标签：<code>&lt;div class=&quot;class1&quot;&gt;</code>中所包裹的元素同时被styleA和styleB来选中，那么它的颜色会是什么？（请先自己思考）o_o ….</p>
+<p>我们可以简单计算一下：根据特异性规则可得：</p>
+<ul>
+<li><p>styleA：0个ID，0个类，11个元素 → (0,0,0,11)</p>
+</li>
+<li><p>styleB：0个ID，1个类，0个元素 → (0,0,1,0)</p>
+</li>
+</ul>
+<p>根据比较规则，显而易见，a b列都是0，持平。比c列，styleA是0，styleB是1，(0,0,1,0)胜出！</p>
+<p>所以最终颜色是蓝色。</p>
+<p>这个问题揭示了特异性的<strong>一个核心</strong>：容易看出来，一个“类“的权重，永远高于无数个“元素”的叠加。由此可以容易看出来，<strong>权重比较比的不是数量，而是等级。</strong>（和正常人类计算规则的“进制”不同）ヾ(^▽^*)))</p>
+<p>不过，当选择器组合使用时，它的特异性是各部分相加，所以在遇到这种情况时，我们需要准确地分辨出各个选择器的种类，并把它们相加，同时，这也是最容易让人迷惑的地方(((φ(◎ロ◎;)φ)))，我们多看几个例子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* styleC */</span><br><span class="line">#nav .list li a&#123;</span><br><span class="line">  color: green;  /* ID + 类 + 元素 + 元素 */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* styleD */</span><br><span class="line">div#nav ul.list li a&#123;</span><br><span class="line">  color: orange; /* 元素 + ID + 元素 + 类 + 元素 + 元素 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段示例中，styleC和styleD哪个权重更大一些呢(._. )&gt;？</p>
+<p>容易计算到：</p>
+<ul>
+<li><p>styleC：1个ID (#nav)，1个类 (.list)，2个元素 (li, a) → (0,1,1,2)</p>
+</li>
+<li><p>styleD：1个ID (#nav)，1个类 (.list)，4个元素 (div, ul, li, a) → (0,1,1,4)</p>
+</li>
+</ul>
+<p>根据比较规则，显然，在d中，4&gt;2。</p>
+<p>所以styleD的权重要大一些。</p>
+<h3 id="特殊规则"><a href="#特殊规则" class="headerlink" title="特殊规则"></a>特殊规则</h3><p>CSS在不断进化，新的功能性伪类带来了更灵活的写法，也带来了特异性计算的新规则。 o(*￣▽￣*)o</p>
+<h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><p>通配符选择器 *权重为 (0,0,0,0)，不影响特异性计算。</p>
+<p>比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                     /* (0,0,0,0)  */</span><br><span class="line">.class1 *&#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                     /* (0,0,1,0)  */</span><br></pre></td></tr></table></figure>
+
+<h4 id="组合符"><a href="#组合符" class="headerlink" title="组合符"></a>组合符</h4><p>组合符（&gt;, +, ~, 空格）本身不增加权重。</p>
+<p>比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">h2 span&#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                     /* (0,0,0,2)  */</span><br><span class="line">h2&gt;span&#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                     /* (0,0,0,2)  */</span><br></pre></td></tr></table></figure>
+
+<h4 id="not-伪类"><a href="#not-伪类" class="headerlink" title=":not() 伪类"></a>:not() 伪类</h4><p>:not() 伪类本身不计权重，但其括号内的选择器正常计算</p>
+<p>比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">:not(.disabled) &#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                        /* 计算 .disabled: (0,0,1,0)*/</span><br><span class="line">:not(#id .class) &#123;</span><br><span class="line">color:blue;</span><br><span class="line">&#125;                        /* 计算 #id .class: (0,1,1,0) */</span><br><span class="line">:not(p) &#123;</span><br><span class="line">clolor:blue;</span><br><span class="line">&#125;                         /* 计算 p: (0,0,0,1)*/</span><br></pre></td></tr></table></figure>
+
+<h4 id="is-伪类"><a href="#is-伪类" class="headerlink" title=":is()伪类"></a>:is()伪类</h4><p>:is()：取参数列表中特异性最高的那个。</p>
+<p>比如说</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:is(#nav, .main, div)p&#123; color: red;&#125;</span><br><span class="line">/* 即使#nav在列表里，整个:is()的特性取#nav的(0,1,0,0)，再加上p的(0,0,0,1)，最终为(0,1,0,1) */</span><br></pre></td></tr></table></figure>
+
+<h4 id="where-伪类"><a href="#where-伪类" class="headerlink" title=":where()伪类"></a>:where()伪类</h4><p>:where()：“权重归零器”！(oﾟvﾟ)ノ无论括号里写什么，整个 :where() 部分的特异性为 (0,0,0,0)。</p>
+<p>比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:where(#nav, .main p&#123; color: blue;&#125;</span><br><span class="line">/* 整个:where()部分权重为0，只剩下p的(0,0,0,1)。 */</span><br></pre></td></tr></table></figure>
+
+<p>我们再来看一个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* styleE */</span><br><span class="line">:where(#header) .title&#123;</span><br><span class="line">  color: purple;  /* :where()里的ID不算数！(○´･д･)ﾉ */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* styleF */</span><br><span class="line">h1.title&#123;</span><br><span class="line">  color: black;   /* 元素 + 类 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时title会显示什么颜色呢？</p>
+<p>根据特异性规则，可以得到：</p>
+<ul>
+<li><p>styleE：:where()权重为0，加上 .title 的 (0,0,1,0) → (0,0,1,0)</p>
+</li>
+<li><p>styleF：1个元素 (h1)，1个类 (.title) → (0,0,1,1)</p>
+</li>
+</ul>
+<p>根据比较规则，显而易见，a b都是0，c均为1，持平。比d，styleE是0，styleF是1。(0,0,1,1) 胜出！</p>
+<p>所以说，此时title会显示黑色。</p>
+<h4 id="特异性完全相同时的特殊类型"><a href="#特异性完全相同时的特殊类型" class="headerlink" title="特异性完全相同时的特殊类型"></a>特异性完全相同时的特殊类型</h4><p>如果特异性完全一样呢？浏览器会遵循层叠的另一个核心原则：顺序靠后的胜出。(‾◡◝)</p>
+<p>比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.class1&#123; </span><br><span class="line">background: blue; </span><br><span class="line">&#125;                 /* 写在前面 */</span><br><span class="line">.class1&#123; </span><br><span class="line">background: red; </span><br><span class="line">&#125;                 /* 写在后面，覆盖前面的蓝色 */</span><br></pre></td></tr></table></figure>
+
+<h3 id="！important"><a href="#！important" class="headerlink" title="！important"></a>！important</h3><p><strong>!important 声明会打破特异性体系。它会让一条样式声明获得最高优先级，但滥用会导致特异性体系崩溃</strong>，让代码变成一坨史山。只有在用尽其他方法都无法解决时，才考虑 !important，并且一定要加上注释说明原因。否则的话，只要过了一宿你就会不知道自己究竟写了什么东西。＞﹏＜</p>
+<p>而且，若多个 !important冲突，则会回归特异性比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p&#123; </span><br><span class="line">color: blue !important; </span><br><span class="line">&#125;               /* 无视特异性，直接应用 */</span><br><span class="line">#id&#123; </span><br><span class="line">color: red !important; </span><br><span class="line">&#125;               /* 若冲突，比较特异性 */</span><br></pre></td></tr></table></figure>
+
+<h3 id="一般的前端开发中对于选择器的使用原则"><a href="#一般的前端开发中对于选择器的使用原则" class="headerlink" title="一般的前端开发中对于选择器的使用原则"></a>一般的前端开发中对于选择器的使用原则</h3><p>当然，如上文所说，在一般的的前端开发中，不会遇到这些乱七八糟的选择器粘在一起让你算权重的情况，毕竟这就像你去711买个饭团，结果非要掏出计算器用微积分算它的热量分布一样，属于是把简单问题复杂化的行为呢 。</p>
+<p>但有几条约定俗成的部分需要我们了解一下。</p>
+<h4 id="BEM命名法"><a href="#BEM命名法" class="headerlink" title="BEM命名法"></a>BEM命名法</h4><p>BEM命名法核心思想就是：只用类选择器，通过命名规范来模拟层级关系，而不是用CSS的后代选择器来创建层级。</p>
+<p>我们先来看一段实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;card&quot;&gt;</span><br><span class="line">  &lt;h2 class=&quot;title&quot;&gt;标题&lt;/h2&gt;</span><br><span class="line">  &lt;button class=&quot;btn&quot;&gt;点击&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果用常规思维，我们可能会写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.card .title &#123; font-size: 20px; &#125;  </span><br><span class="line">.card .btn &#123; color: blue; &#125;        </span><br></pre></td></tr></table></figure>
+
+<p>但BEM的做法是，<strong>把所有样式都绑定在单个类名上</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.card__title &#123; font-size: 20px; &#125;   .card__btn &#123; color: blue; &#125;          </span><br></pre></td></tr></table></figure>
+
+<p>显然我们能看出来，<strong>这样几乎永远不需要用 ID，也永远不需要超过两层的嵌套</strong>。整个项目的特异性都一样的的，不存在谁意外超过谁的问题。</p>
+<p>而且，类名本身即文档——看到 .card__title 就知道它是card块里的 title元素，不需要翻HTML结构去理解选择器含义。q(≧▽≦q)</p>
+<h4 id="单一类选择器优先原则"><a href="#单一类选择器优先原则" class="headerlink" title="单一类选择器优先原则"></a>单一类选择器优先原则</h4><p>尽量或者只能用类选择器，禁止用ID和标签选择器来定义核心样式。</p>
+<ul>
+<li><p><strong>ID</strong>  因为其极高的特异性 ，一旦在CSS中使用，后续任何覆盖都必须用更高的特异性或!important。因此ID主要留给JS使用，<strong>不应该出现在样式表里</strong>。</p>
+</li>
+<li><p><strong>标签选择器</strong> ，它们会影响所有同标签元素。通常在样式重置或基础排版层才会少量使用（例如设定全局字体、基础行高），组件级别的样式一律不用裸标签选择器。</p>
+</li>
+</ul>
+<h4 id="不要过度嵌套选择器"><a href="#不要过度嵌套选择器" class="headerlink" title="不要过度嵌套选择器"></a>不要过度嵌套选择器</h4><p>这样会变得非常难以理解，特异性不但会随着每一层嵌套叠加，而且会影响性能`(*&gt;﹏&lt;*)′</p>
+<h4 id="善用现代选择器"><a href="#善用现代选择器" class="headerlink" title="善用现代选择器"></a>善用现代选择器</h4><p>现代CSS提供了很多工具，让我们可以用更低特异性、更简洁的方式实现过去需要嵌套或叠加选择器才能做到的事，如上文提到过 :where() :is() :not()等。</p>
+<h2 id="尾……"><a href="#尾……" class="headerlink" title="尾……"></a>尾……</h2><p>嘛，说到底，</p>
+<p>CSS的世界也没有那么难懂吧。(´▽｀)</p>
+<p>所以呢，下次再遇到样式冲突，</p>
+<p>别急着掏用!important。</p>
+<p>先静下心，打开开发者工具</p>
+<p>像解谜一样看看那些 (a, b, c, d) 的数字</p>
+<p>你会发现，</p>
+<p>CSS其实还是很讲道理的吧。</p>
+<p>学会了这些，</p>
+<p>才是真正能掌控了样式的技巧呢。</p>
+<p>(笑</p>
+
+  </div>
+
+  
+  <div class="about" data-pagefind-ignore>
+    <h2>About this Post</h2>
+    <div class="details">This post is written by Leapan, licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</div>
+    
+    
+  </div>
+  
+
+  <div class="container post-prev-next" data-pagefind-ignore>
+    
+    <a href="/2026/02/21/2026-02-21-use-cloudflare-and-nginx-to-block-unauthorized-file-access/" class="next">
+      <div class="text">
+        <p class="label">Next</p>
+        <h3 class="title">使用Cloudflare+Nginx自定义规则来阻止核心文件的访问</h3>
+      </div>
+    </a>
+    
+    
+    <a href="/2025/12/29/2025-12-29-474/" class="prev">
+      <div class="text">
+        <p class="label">Previous</p>
+        <h3 class="title"></h3>
+      </div>
+    </a>
+    
+  </div>
+
+  
+    
+  
+</article>
+
+
+    </main>
+    <footer>
+  <div class="inner">
+    <div class="links">
+      
+      <div class="group">
+        <h2 class="title">导航</h2>
+        
+        <a target="_blank" rel="noopener" href="https://www.gardenwalk.moe/" class="item">主页</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/" class="item">主站</a>
+        
+        <a href="/reciprocal-linking" class="item">友情链接</a>
+        
+        <a href="/archives" class="item">Archives</a>
+        
+        <a href="/faq" class="item">FAQ</a>
+        
+        <a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/feed/" class="item">RSS</a>
+        
+        <a href="/about" class="item">关于</a>
+        
+      </div>
+      
+      <div class="group">
+        <h2 class="title">联系</h2>
+        
+        <a target="_blank" rel="noopener" href="https://github.com/Leapan-01" class="item">GitHub</a>
+        
+        <a target="_blank" rel="noopener" href="https://x.com/leapan_01" class="item">Twitter</a>
+        
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/667164368" class="item">Bilibili</a>
+        
+        <a href="mailto:lp-gardenwalk@outlook.com" class="item">E-mail</a>
+        
+      </div>
+      
+    </div>
+    <span>&copy; 2026 Leapan<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></span>
+    
+    <br>
+    <span class="footer-extra-description">Copyright © 2024-2026 by Leapan All Rights Reserved. | <a target="_blank" rel="noopener" href="https://icp.gov.moe/?keyword=20243222">萌ICP备20243222号</a></span>
+    
+    
+      <br>
+      <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
+        <label>
+          <input type="radio" value="light">
+          <span>Light</span>
+        </label>
+        <label>
+          <input type="radio" value="dark">
+          <span>Dark</span>
+        </label>
+        <label>
+          <input type="radio" value="auto">
+          <span>Auto</span>
+        </label>
+      </div>
+    
+  </div>
+</footer>
+
+
+    
+<script src="/js/main.js"></script>
+
+
+    
+
+    
+    
+<script src="/js/scroll-reveal.js"></script>
+
+    
+
+    
+  </body>
+</html>
