@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://files.seeusercontent.com/2026/08/02/vTn5/1785676912-b41d1f6463e5ffd88bc13.png">
 <meta property="og:image" content="https://files.seeusercontent.com/2026/08/02/H0fc/1785677184-4406b7ef5f62442b814b0.png">
 <meta property="article:published_time" content="2026-08-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-02T14:25:46.023Z">
+<meta property="article:modified_time" content="2026-08-03T02:43:28.598Z">
 <meta property="article:author" content="Leapan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://files.seeusercontent.com/2026/08/02/pF1c/1785673492-7989a7e82550a142c4dec.png">
@@ -249,23 +249,26 @@
 <p><a target="_blank" rel="noopener" href="https://sm.ms/hop5"><img src="https://files.seeusercontent.com/2026/08/02/rFu3/mermaid1.png" alt="mermaid1.png" /></a><br>用流程图可能会…更直观一点？</p>
 <p>所以……整个流程通常包含以下几个核心阶段：</p>
 <p>首先是<strong>验证检查（Validation Checks）</strong> ，在所有其他安全功能之前执行，用于拦截格式异常的恶意请求。随后进入<strong>自定义规则（Custom Rules）</strong> 阶段，用户可以在这里配置 IP 黑白名单、路径访问控制等个性化策略。紧接着是<strong>速率限制（Rate Limiting）</strong> ，对短时间内请求频率异常的 IP 进行干预。之后是<strong>托管规则（Managed Rules）</strong> ，即 WAF（Web应用防火墙）的核心，通过 Cloudflare 维护的规则集和 OWASP 核心规则集，对请求的URL、Header、Body进行特征匹配，识别SQL注入、XSS等常见攻击。最后是<strong>机器人管理（Bot Management）</strong> ，综合运用启发式引擎、机器学习等多种手段识别自动化流量。</p>
-<p>简单来说：几乎所有的安全选项都会经过 Cloudflare 的 Anycast 服务器来处理（并非本地），而且Bot Management、JavaScript Detections、Managed Challenge 等挑战机制相关的功能 Cloudflare 都会向 HTML 页面注入<strong>一段轻量级、不可见的 JavaScript 代码</strong>。</p>
+<p>一般地来说：几乎所有的安全选项都会经过 Cloudflare 的 Anycast 服务器来处理（并非本地），而且Bot Management、JavaScript Detections、Managed Challenge 等挑战机制相关的功能 Cloudflare 都会向 HTML 页面注入<strong>一段轻量级、不可见的 JavaScript 代码</strong>。</p>
 <p>一般地，这段脚本会存在：&#x2F;cdn-cgi&#x2F;challenge-platform&#x2F;scripts&#x2F;jsd&#x2F;main.js 中</p>
 <p>这段脚本在后台运行，用于收集浏览器指纹等客户端信号，以便能持续评估 user 的真实性，虽然 CF 官方声称性能影响极小，但…….互联网曾经流传过一张 meme… ↓</p>
 <p><a target="_blank" rel="noopener" href="https://sm.ms/NrwE"><img src="https://files.seeusercontent.com/2026/08/02/i0Le/1785675249-a5faf99d9f39d6a6d49be.jpg" alt="1785675249-a5faf99d9f39d6a6d49be832ae5ed025.jpg" /></a></p>
 <p>所以，一股脑地全部开启确实会对网站的速度造成严重的影响。</p>
 <p>但是…如果关闭与 Challenge Platform 相关的安全功能，main.js 会不会消失？网站速度又会发生什么变化？</p>
 <p>正所谓“实践是检验真理的唯一标准”，接下来，我要做一次真正的实践检验。</p>
-<h2 id="实践检验"><a href="#实践检验" class="headerlink" title="实践检验"></a>实践检验</h2><p>为了验证这一点，我分别在开启和关闭相关功能以及清除缓存的情况下，对我的主页进行了多次测试，并重点观察 Network 面板中的 main.js 请求、TTFB 以及首屏渲染时间。</p>
+<h2 id="实践检验"><a href="#实践检验" class="headerlink" title="实践检验"></a>实践检验</h2><p>为了验证这一点，我分别在开启和关闭相关功能以及清除缓存的情况下，对我的主页进行了多次测试，并重点观察 Network 面板中的 main.js 请求、以及首屏渲染时间。</p>
 <p><a target="_blank" rel="noopener" href="https://sm.ms/ZQd7"><img src="https://files.seeusercontent.com/2026/08/02/vTn5/1785676912-b41d1f6463e5ffd88bc13.png" alt="1785676912-b41d1f6463e5ffd88bc13383e63a5a36.png" /></a><br>此为开启 Bot Management 和 Email Address Obfuscation 的实验组。由此可见，仅仅是加载了一个 main.js 所需的时间就要高达2000ms。</p>
 <p><a target="_blank" rel="noopener" href="https://sm.ms/STNN"><img src="https://files.seeusercontent.com/2026/08/02/H0fc/1785677184-4406b7ef5f62442b814b0.png" alt="1785677184-4406b7ef5f62442b814b07c361fa4d9d.png" /></a><br>此为未开启Bot Management 和 Email Address Obfuscation 的对照组。两个来自 CF 官方提供的js已经消失，而且速度还提升了不少。</p>
-<p>所以，几乎可以确定，针对于一个主要访客位于中国大陆的网站来说，不假思索地全部开启“安全选项”，是利大于弊的。</p>
-<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><p><strong>优化，并不是全部开启。</strong></p>
+<p>需要先说明一下这次实验设计上的一个局限：为了测试方便，我是把 Bot Management 和 Email Address Obfuscation 同时开关来做对照的，并没有拆开单独测。所以严格来说，我只能确定”两者一起开”比”两者一起关”慢，没法精确说清这 2 秒延迟里各自占多少。回头翻了下 Cloudflare 官方文档，Email Obfuscation 用的解码脚本是以 defer 方式异步加载、不阻塞渲染的，理论上开销很小；真正的大头大概率是 Bot Management 那段持续采集指纹的 main.js。</p>
+<p>综合这几轮测试来看，至少在我自己的测试环境下，开启 Bot Management 之后 main.js 的加载耗时和首屏渲染都明显变慢。考虑到这类挑战机制对大陆网络环境（尤其是移动网络、共享出口 IP 的访客）特别容易误判，我的判断是：对于访客以中国大陆为主的个人博客来说，不假思索地全部开启”安全选项”，大概率是弊大于利的。当然，这个结论目前主要基于我自己这一次的实测，样本量有限、也没有做多次重复取平均，如果你的站点体量更复杂或场景不一样，最好自己在 Dashboard 里做一遍同样的开关对照，别直接照搬我的结论。</p>
+<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><p><strong>优化，并不是统统打开那么简单。</strong></p>
 <p>一般地，针对于普通的博客来说：</p>
 <p><strong>Bot Management</strong>, <strong>Email Address Obfuscation</strong>,和 <strong>Browser Integrity</strong> Check 这三个选项可以放心关闭。</p>
-<p>因为大陆用户的请求 IP (非常)有可能被 Cloudflare 的自动程序检测模型误判为可疑Bot（尤其是来自移动网络、共享出口 IP 的用户，然后 Cloudflare 就会直接给 USER 抛出 main.js ，在大陆的运营商网络抽风的时候，这个脚本会占用高达3-5s的堵塞时间，而且缓存时间极短（47min）.</p>
+<p>Bot Management：因为大陆用户的请求 IP (非常)有可能被 Cloudflare 的自动程序检测模型误判为可疑Bot（尤其是来自移动网络、共享出口 IP 的用户，然后 Cloudflare 就会直接给 USER 抛出 main.js ，在大陆的运营商网络抽风的时候，这个脚本会占用高达3-5s的堵塞时间.</p>
+<p>Browser Integrity Check：如果出现一些请求头不那么”标准”的场景（比如精简过 UA 信息的浏览器、部分隐私保护类插件）容易被 BIC 误伤。</p>
+<p>Email Address Obfuscation：它几乎不太堵塞渲染，因为使用的是defer脚本，但是它的作用其实不算大，厉害的爬虫工具依然可能绕过去。</p>
 <p>至此，答案已经很明确了。</p>
-<p>当然，这只是 Cloudflare 的冰山一角。缓存、WAF、Rocket Loader、Early Hints……这些功能背后同样隐藏着许多值得探究的细节，也许<del>（我不知道我能鸽多久，但一定会有的（心虚 ）</del>会在后续的文章中继续展开。</p>
+<p>当然，这只是 Cloudflare 的冰山一角。缓存（<a target="_blank" rel="noopener" href="https://blog.gardenwalk.moe/2025/03/07/cloudflare-optimization-guide-1/" title="Cloudflare优化指南（缓存篇） – Leapan&#39;s Blog—数字田园的悠然漫步">Cloudflare优化指南（缓存篇） – Leapan’s Blog—数字田园的悠然漫步</a>）、WAF、Rocket Loader、Early Hints……这些功能背后同样隐藏着许多值得探究的细节，也许<del>（我不知道我能鸽多久，但一定会有的（心虚 ）</del>会在后续的文章中继续展开。</p>
 
   </div>
 
